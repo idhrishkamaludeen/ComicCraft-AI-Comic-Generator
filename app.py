@@ -71,20 +71,36 @@ async def generate_comic(
 
     comic_id = uuid.uuid4().hex
 
-    try:
-        story = generate_story(data)
-    except Exception:
-        # Keep the app demoable even when the text API is unavailable.
-        story = {
-            "title": "The Guardian of the Mystic Forest",
-            "panels": [
-                {"title": "The Journey Begins", "narration": "A young hero enters a mysterious forest.", "dialogue": "Something is waiting beyond the trees."},
-                {"title": "A Strange Light", "narration": "A golden light appears deep inside the forest.", "dialogue": "What is that glow?"},
-                {"title": "The Hidden Temple", "narration": "An ancient temple emerges from the mist.", "dialogue": "I finally found it."},
-                {"title": "The Guardian", "narration": "The hero faces the magical guardian of the temple.", "dialogue": "I will protect this place."},
-            ],
-        }
-
+   try:
+    story = generate_story(data)
+except Exception as exc:
+    print(f"Story generation failed: {exc}")
+    # Keep the app demoable even when the text API is unavailable.
+    story = {
+        "title": "The Guardian of the Mystic Forest",
+        "panels": [
+            {
+                "title": "The Journey Begins",
+                "narration": "A young hero enters a mysterious forest.",
+                "dialogue": "Something is waiting beyond the trees."
+            },
+            {
+                "title": "A Strange Light",
+                "narration": "A golden light appears deep inside the forest.",
+                "dialogue": "What is that glow?"
+            },
+            {
+                "title": "The Hidden Temple",
+                "narration": "An ancient temple emerges from the mist.",
+                "dialogue": "I finally found it."
+            },
+            {
+                "title": "The Guardian",
+                "narration": "The hero faces the magical guardian of the temple.",
+                "dialogue": "I will protect this place."
+            },
+        ],
+    }
     try:
         panel_images = generate_panel_images(story, data)
         notice = "Comic generated with AI images."
